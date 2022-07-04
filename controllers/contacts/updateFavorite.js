@@ -1,18 +1,13 @@
-const { createError } = require("../../helpers/index");
-const { updateSchema } = require("../../schemas/contacts");
+const createError = require("../../helpers/createError");
 const Contact = require("../../models/contact");
+const { updateFavoriteSchema } = require("../../schemas/contacts");
 
-const update = async (req, res, next) => {
+const updateFavorite = async (req, res, next) => {
   try {
-    if (
-      !req.body.name &&
-      !req.body.phone &&
-      !req.body.email &&
-      !req.body.favorite
-    ) {
-      throw createError(400, "missing fields");
+    if (!req.body.favorite) {
+      throw createError(400, "missing field favorite");
     }
-    const { error } = updateSchema.validate(req.body);
+    const { error } = updateFavoriteSchema.validate(req.body);
     if (error) {
       throw createError(400, `field ${error.message}`);
     }
@@ -33,4 +28,4 @@ const update = async (req, res, next) => {
   }
 };
 
-module.exports = update;
+module.exports = updateFavorite;

@@ -8,7 +8,10 @@ const create = async (req, res, next) => {
     if (error) {
       throw createError(400, `field ${error.message}`);
     }
-    const result = await Contact.create(req.body);
+    const result = await Contact.create({
+      ...req.body,
+      owner: req.user._id,
+    }).populate("owner", "email name");
     res.status(201).json(result);
   } catch (error) {
     next(error);

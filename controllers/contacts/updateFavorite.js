@@ -14,7 +14,7 @@ const updateFavorite = async (req, res, next) => {
     const { contactId } = req.params;
     const result = await Contact.findByIdAndUpdate(contactId, req.body, {
       new: true,
-    });
+    }).populate("owner", "email name");
     if (!result) {
       throw createError(404, "Not found");
     }
